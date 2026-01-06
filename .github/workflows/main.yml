@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: '3.9'
       - name: 安裝套件
-        run: pip install pandas
+        run: pip install -r requirements.txt
       - name: 執行爬蟲
         run: python scraper.py
       - name: 自動提交數據回倉庫
