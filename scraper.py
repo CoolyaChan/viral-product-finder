@@ -5,16 +5,19 @@ import datetime
 import time
 
 def fetch_amazon():
-    """抓取 Amazon Bestsellers RSS"""
     url = "https://www.amazon.com/gp/rss/bestsellers/electronics/"
     headers = {"User-Agent": "Mozilla/5.0"}
     data = []
     try:
         res = requests.get(url, headers=headers, timeout=10)
-        soup = BeautifulSoup(res.content, "xml")
-        for item in soup.find_all("item"):
-            data.append({"平台": "Amazon", "品名": item.title.text, "熱度": 98, "銷量": 0, "類別": "3C數碼"})
-    except: pass
+        # 這裡改用 html.parser 比較不會因為 XML 格式不嚴謹而崩潰
+        soup = BeautifulSoup(res.content, "html.parser")
+        items = soup.find_all("item")
+        for item in items:
+            title = item.find("title").text if item.find("title") else "未知商品"
+            data.append({"平台": "Amazon", "品名": title, "熱度": 98, "銷量": 0, "類別": "3C數碼"})
+    except Exception as e:
+        print(f"Amazon 抓取跳過: {e}")
     return data
 
 def fetch_momo(keyword="行動電源"):
