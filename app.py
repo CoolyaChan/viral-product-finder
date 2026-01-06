@@ -54,17 +54,18 @@ if not filtered_df.empty:
     # 按照熱度進行全平台總排行
     display_df = filtered_df.sort_values(by="熱度", ascending=False)
     
-    st.dataframe(
+st.dataframe(
         display_df,
         column_config={
             "平台": st.column_config.TextColumn("來源平台"),
             "品名": st.column_config.TextColumn("完整商品名稱", width="large"),
             "熱度": st.column_config.ProgressColumn("綜合爆品得分", format="%d分", min_value=0, max_value=100),
             "銷量": st.column_config.NumberColumn("全網推估銷量"),
-            "類別": st.column_config.TagColumn("類別"),
+            "類別": st.column_config.TextColumn("類別"), # 這裡將 TagColumn 改為 TextColumn
         },
         hide_index=True,
         use_container_width=True
+    )
     )
 else:
     st.warning("查無數據，請嘗試調整篩選條件或等待自動爬蟲累積更多資料。")
