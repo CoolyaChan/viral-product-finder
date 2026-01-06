@@ -66,6 +66,6 @@ st.dataframe(
         hide_index=True,
         use_container_width=True
     )
-    )
+
 else:
     st.warning("查無數據，請嘗試調整篩選條件或等待自動爬蟲累積更多資料。")
